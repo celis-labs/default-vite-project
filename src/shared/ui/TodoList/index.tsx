@@ -227,6 +227,8 @@ export default function TodoList() {
 
             <a>Импорт:</a>
 
+            <br/>
+
             <input
               type="file"
               accept=".json"
