@@ -54,6 +54,8 @@ export default function TodoList() {
   }
 
   const handleFilter = (filterText: string) => {
+    console.log(filterText.length)
+    
     if (filterText.length === 0) {
       const fromStorage = localStorage.getItem("todos")
 
@@ -215,7 +217,6 @@ export default function TodoList() {
               style={{
                 backgroundColor: "#ffca00",
                 width: "75px",
-                backgroundColor: "#ffca00",
                 borderRadius: "5px",
               }}
               onClick={ handleExport }
@@ -227,6 +228,7 @@ export default function TodoList() {
 
             <a>Импорт:</a>
 
+            <br/>
             <br/>
 
             <input
