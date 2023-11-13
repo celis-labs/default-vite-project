@@ -55,7 +55,7 @@ export default function TodoList() {
 
   const handleFilter = (filterText: string) => {
     console.log(filterText.length)
-    
+
     if (filterText.length === 0) {
       const fromStorage = localStorage.getItem("todos")
 
@@ -68,8 +68,6 @@ export default function TodoList() {
     )
 
     setTodos(filteredTodos);
-
-    localStorage.setItem("todos", JSON.stringify(filteredTodos))
     }
   }
 
@@ -225,11 +223,9 @@ export default function TodoList() {
             </button>
 
             <br/>
+            <br/>
 
             <a>Импорт:</a>
-
-            <br/>
-            <br/>
 
             <input
               type="file"
