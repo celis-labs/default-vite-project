@@ -20,6 +20,10 @@ export default function TodoList() {
     }, []);
 
   const handleAddTodo = () => {
+    if (inputText.length === 0) {
+      return
+    }
+
     const newTodo: ITodo = {
       id: Date.now().toString(),
       text: inputText,
@@ -34,7 +38,7 @@ export default function TodoList() {
   }
 
   const handleRemoveTodo = (id: string) => {
-    const newTodos = todos.filter((todo) => todo.id !== id)
+    const newTodos = todos.filter((todo: ITodo) => todo.id !== id)
 
     setTodos(newTodos);
 
@@ -58,7 +62,7 @@ export default function TodoList() {
       setTodos(localTodos);
     } else {
       const filteredTodos = todos.filter((todo: ITodo) => 
-      todo.text.toLowerCase().includes(filterText.toLowerCase())
+       todo.text.toLowerCase().includes(filterText.toLowerCase())
     )
 
     setTodos(filteredTodos);
@@ -180,6 +184,7 @@ export default function TodoList() {
             <input
               type="text"
               placeholder="Добавить задачу"
+              value={ inputText }
               style={{
                 border: "1px solid #000000",
                 borderRadius: "6px"
@@ -209,7 +214,9 @@ export default function TodoList() {
             <button
               style={{
                 backgroundColor: "#ffca00",
-                width: "75px"
+                width: "75px",
+                backgroundColor: "#ffca00",
+                borderRadius: "5px",
               }}
               onClick={ handleExport }
             >
@@ -217,10 +224,8 @@ export default function TodoList() {
             </button>
 
             <br/>
-            <br/>
-            <br/>
 
-            <a>Импорт</a>
+            <a>Импорт:</a>
 
             <br/>
 
