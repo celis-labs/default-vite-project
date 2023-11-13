@@ -11,17 +11,12 @@ export default function TodoList() {
 
     const [todos, setTodos] = useState<ITodo[] | undefined>([]);
 
-    console.log(todos)
-
     useEffect(() => {
         const fromStorage = localStorage.getItem("todos")
 
         const localTodos = fromStorage ? JSON.parse(fromStorage) : [];
 
-        // @ts-ignore
         setTodos(localTodos);
-
-        console.log(todos)
     }, []);
 
   const handleAddTodo = () => {
@@ -46,20 +41,109 @@ export default function TodoList() {
     localStorage.setItem("todos", JSON.stringify(newTodos))
   }
 
+  const handleSort = () => {
+    const sortedTodos = [...todos].sort((a, b) => a.text.localeCompare(b.text))
+
+    setTodos(sortedTodos);
+
+    localStorage.setItem("todos", JSON.stringify(sortedTodos))
+  }
+
+  const handleFilter = (filterText: string) => {
+    const filteredTodos = todos.filter((todo: ITodo) => 
+      todo.text.toLowerCase().includes(filterText.toLowerCase())
+    )
+
+    setTodos(filteredTodos);
+
+    localStorage.setItem("todos", JSON.stringify(filteredTodos))
+  }
+
+  const handleExport = () => {
+    const packedTodos = JSON.stringify(todos)
+
+    const blob = new Blob([packedTodos], { type: "application/json" })
+
+    const link = document.createElement("a")
+    link.href = URL.createObjectURL(blob)
+    link.download = "todos.json"
+
+    link.click()
+  }
+
+  const handleImport = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+
+    if (file) {
+      const reader = new FileReader()
+
+      reader.onload = (e) => {
+        try {
+          const rawImportedTodos = e.target?.result as string
+
+          const importedTodos = JSON.parse(rawImportedTodos)
+
+          setTodos(importedTodos)
+
+          localStorage.setItem("todos", rawImportedTodos)
+        } catch(e) {
+          console.error(e)
+        }
+      }
+
+      reader.readAsText(file)
+    }
+  }
+
     return (
         <div style={{
           paddingBottom: "25px",
         }}>
-            <h1>Todo List</h1>
+            <h1
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                paddingBottom: "15px"
+              }}
+            >
+              Todo List
+            </h1>
+
+            <div style={{
+              paddingBottom: "15px",
+            }}>
+              <button
+                onClick={ handleSort }
+              >
+                Сортировать
+              </button>
+
+              <input
+                type="text"
+                placeholder="Фильтр по имени"
+                onChange={ (e: HTMLInputElement) => {
+                  handleFilter(e.target.value)
+              }}
+              >
+              </input>
+            </div>
 
             <List>
                 {
-                    todos.map((todo) => (
+                    todos.map((todo: ITodo) => (
                       <ListItem key={todo.id}>
                         <div>
                           {todo.text}
 
-                          <button onClick={() => handleRemoveTodo(todo.id)}>
+                          <button 
+                            style={{
+                              backgroundColor: "#ffca00",
+                              borderRadius: "5px",
+                              width: "75px",
+                              marginLeft: "10px"
+                            }}
+                            onClick={() => handleRemoveTodo(todo.id)}
+                          >
                             Удалить
                           </button>
                         </div>
@@ -77,18 +161,45 @@ export default function TodoList() {
             <input
               type="text"
               placeholder="Добавить задачу"
-              onChange={ (e) => {
+              style={{
+                border: "1px solid #000000",
+                borderRadius: "6px"
+              }}
+              onChange={ (e: HTMLInputElement) => {
                   setInputText(e.target.value)
               }}
             >
             </input>
+
           <button
             style={{
-              paddingLeft: "15px"
+              paddingLeft: "15px",
+              backgroundColor: "#ffca00",
+              borderRadius: "5px",
+              width: "90px"
             }}
             onClick={ () => handleAddTodo() }>
-            Добавить
+              Добавить
           </button>
+
+          <div
+            style={{
+              marginTop: "10px"
+            }}
+          >
+            <button
+              onClick={ handleExport }
+            >
+              Экспорт
+            </button>
+
+            <input
+              type="file"
+              accept=".json"
+              placeholder="Импорт"
+              onChange={ handleImport }
+            />
+          </div>
         </div>
     )
 }
