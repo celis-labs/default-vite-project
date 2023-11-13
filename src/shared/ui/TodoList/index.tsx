@@ -110,9 +110,13 @@ export default function TodoList() {
             </h1>
 
             <div style={{
+              display: "grid",
               paddingBottom: "15px",
             }}>
               <button
+                style={{
+                  gridColumn: 1
+                }}
                 onClick={ handleSort }
               >
                 Сортировать
@@ -120,6 +124,12 @@ export default function TodoList() {
 
               <input
                 type="text"
+                style={{
+                  border: "1px solid #000000",
+                  borderRadius: "6px",
+                  gridColumn: 2,
+                  width: "135px"
+                }}
                 placeholder="Фильтр по имени"
                 onChange={ (e: HTMLInputElement) => {
                   handleFilter(e.target.value)
@@ -140,7 +150,8 @@ export default function TodoList() {
                               backgroundColor: "#ffca00",
                               borderRadius: "5px",
                               width: "75px",
-                              marginLeft: "10px"
+                              marginLeft: "10px",
+                              marginBottom: "10px"
                             }}
                             onClick={() => handleRemoveTodo(todo.id)}
                           >
@@ -173,7 +184,7 @@ export default function TodoList() {
 
           <button
             style={{
-              paddingLeft: "15px",
+              marginLeft: "15px",
               backgroundColor: "#ffca00",
               borderRadius: "5px",
               width: "90px"
@@ -188,11 +199,18 @@ export default function TodoList() {
             }}
           >
             <button
+              style={{
+                backgroundColor: "#ffca00",
+                width: "75px"
+              }}
               onClick={ handleExport }
             >
               Экспорт
             </button>
 
+            <br/>
+
+            <a>Импорт</a>
             <input
               type="file"
               accept=".json"
