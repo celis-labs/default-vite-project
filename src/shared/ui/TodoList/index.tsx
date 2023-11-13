@@ -50,13 +50,21 @@ export default function TodoList() {
   }
 
   const handleFilter = (filterText: string) => {
-    const filteredTodos = todos.filter((todo: ITodo) => 
+    if (filterText.length === 0) {
+      const fromStorage = localStorage.getItem("todos")
+
+      const localTodos = fromStorage ? JSON.parse(fromStorage) : [];
+
+      setTodos(localTodos);
+    } else {
+      const filteredTodos = todos.filter((todo: ITodo) => 
       todo.text.toLowerCase().includes(filterText.toLowerCase())
     )
 
     setTodos(filteredTodos);
 
     localStorage.setItem("todos", JSON.stringify(filteredTodos))
+    }
   }
 
   const handleExport = () => {
@@ -209,8 +217,13 @@ export default function TodoList() {
             </button>
 
             <br/>
+            <br/>
+            <br/>
 
             <a>Импорт</a>
+
+            <br/>
+
             <input
               type="file"
               accept=".json"
