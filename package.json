@@ -1,7 +1,7 @@
 {
     "name": "vite-project",
     "private": false,
-    "license" : "MIT",
+    "license": "MIT",
     "version": "0.0.0",
     "type": "module",
     "scripts": {
@@ -17,11 +17,14 @@
         "framer-motion": "10.12.4",
         "react": "18.2.0",
         "react-dom": "18.2.0",
-        "react-router-dom": "6.10.0"
+        "react-router-dom": "6.10.0",
+        "react-use": "^17.4.0",
+        "ts-jest": "^29.1.1",
+        "typescript": "^5.2.2"
     },
     "devDependencies": {
-        "@types/react": "18.0.28",
-        "@types/react-dom": "18.0.11",
+        "@types/react": "17.0.14",
+        "@types/react-dom": "17.0.14",
         "@vitejs/plugin-react-swc": "3.0.0",
         "eslint": "8.39.0",
         "eslint-config-airbnb": "19.0.4",
